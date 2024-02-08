@@ -19,6 +19,8 @@ import com.codewithdurgesh.blog.payloads.ApiResponse;
 import com.codewithdurgesh.blog.payloads.UserDto;
 import com.codewithdurgesh.blog.services.UserService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
@@ -29,14 +31,14 @@ public class UserController {
 	
 	// 1. Create user - POST
 	@PostMapping("/")
-	public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto){
+	public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userDto){
 		UserDto createdUserDto = this.userService.createUser(userDto);
 		return new ResponseEntity<>(createdUserDto, HttpStatus.CREATED);
 	}
 	
 	// 2. Update user - PUT
 	@PutMapping("/{userId}")    // here userId - Path Variable
-	public ResponseEntity<UserDto> updateUser(@RequestBody UserDto userDto, @PathVariable("userId") Integer uId){
+	public ResponseEntity<UserDto> updateUser(@Valid @RequestBody UserDto userDto, @PathVariable("userId") Integer uId){
 		// Instead of this => @PathVariable("userId") Integer uId
 		// we can write this => @PathVariable Integer userId 
 		// (also we can use primitive type, but its better practice to use wrapper class)
