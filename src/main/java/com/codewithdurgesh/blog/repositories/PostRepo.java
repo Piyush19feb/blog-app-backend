@@ -10,7 +10,7 @@ import com.codewithdurgesh.blog.entities.User;
 
 public interface PostRepo extends JpaRepository<Post, Integer> {
 
-	// custom finder methods
+	// these are custom finder methods
 	
 	List<Post> findByUser(User user);
 	

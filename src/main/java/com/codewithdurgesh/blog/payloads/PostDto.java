@@ -16,7 +16,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class PostDto {
 
-//	private int id;  // no need (automatic mil jata hai)
+	private int postId;  
 	
 	private String title;
 	
