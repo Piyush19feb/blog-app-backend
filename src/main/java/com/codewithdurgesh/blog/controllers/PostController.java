@@ -5,13 +5,16 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.codewithdurgesh.blog.payloads.ApiResponse;
 import com.codewithdurgesh.blog.payloads.PostDto;
 import com.codewithdurgesh.blog.services.PostService;
 
@@ -59,6 +62,21 @@ public class PostController {
 	public ResponseEntity<PostDto> getPostById(@PathVariable Integer postId){
 		PostDto postById = this.postService.getPostById(postId);
 		return new ResponseEntity<PostDto>(postById, HttpStatus.OK);
+	}
+	
+	
+	// delete post by id
+	@DeleteMapping("/posts/{postId}")
+	public ResponseEntity<ApiResponse> deletePost(@PathVariable Integer postId){
+		this.postService.deletePost(postId);
+		return new ResponseEntity<ApiResponse>(new ApiResponse("Post is successfully deleted !!", true), HttpStatus.OK);
+	}
+	
+	// update post
+	@PutMapping("/posts/{postId}")
+	public ResponseEntity<PostDto> updatePost(@RequestBody PostDto postDto, @PathVariable Integer postId){
+		PostDto updatePost = this.postService.updatePost(postDto, postId);
+		return new ResponseEntity<PostDto>(updatePost,HttpStatus.OK);
 	}
 }
 
