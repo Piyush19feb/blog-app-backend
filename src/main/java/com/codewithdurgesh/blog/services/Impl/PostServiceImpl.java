@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.codewithdurgesh.blog.entities.Category;
@@ -17,12 +18,10 @@ import com.codewithdurgesh.blog.entities.User;
 import com.codewithdurgesh.blog.exceptions.ResourceNotFoundException;
 import com.codewithdurgesh.blog.payloads.PostDto;
 import com.codewithdurgesh.blog.payloads.PostResponse;
-import com.codewithdurgesh.blog.payloads.UserDto;
 import com.codewithdurgesh.blog.repositories.CategoryRepo;
 import com.codewithdurgesh.blog.repositories.PostRepo;
 import com.codewithdurgesh.blog.repositories.UserRepo;
 import com.codewithdurgesh.blog.services.PostService;
-
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -80,9 +79,15 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public PostResponse getAllPost(Integer pageNumber, Integer pageSize) {
+	public PostResponse getAllPost(Integer pageNumber, Integer pageSize, String sortBy) {
 		// create object of pageNumber and pageSize using class Pageable
-		Pageable p = PageRequest.of(pageNumber, pageSize);  
+//		Pageable p = PageRequest.of(pageNumber, pageSize); 
+		
+		// create object of pageNumber and pageSize using class Pageable 
+		// also implementing sorting
+//		Pageable p = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
+		Pageable p = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).ascending());
+//		Pageable p = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).descending());
 		
 		// getAllPost of that respective page and size
 		Page<Post> pagePost = this.postRepo.findAll(p);
