@@ -1,8 +1,11 @@
 package com.codewithdurgesh.blog.payloads;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.codewithdurgesh.blog.entities.Category;
+import com.codewithdurgesh.blog.entities.Comment;
 import com.codewithdurgesh.blog.entities.User;
 
 import lombok.AllArgsConstructor;
@@ -33,4 +36,25 @@ public class PostDto {
 //	=> we'll take/accept it from URL only
 //	DTO mai hum sirf aisa hi data/field lete hai
 //	jo hame client se leni hoti hai ya use deni hoti hai
+	
+	
+	private Set<CommentDto> comments = new HashSet<>();
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
