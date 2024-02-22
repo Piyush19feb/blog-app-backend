@@ -8,11 +8,15 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.codewithdurgesh.blog.security.CustomUserDetailService;
+import com.codewithdurgesh.blog.security.JwtAuthenticationEntryPoint;
+import com.codewithdurgesh.blog.security.JwtAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -21,18 +25,38 @@ public class SecurityConfig {
 	@Autowired
 	private CustomUserDetailService customUserDetailService;
 	
+	@Autowired
+	private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+	
+	@Autowired
+	private JwtAuthenticationFilter jwtAuthenticationFilter;
+	
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.
-        csrf().
-        disable().
-        authorizeHttpRequests().
-        anyRequest().
-        authenticated().
-        and().
-        httpBasic();
-        
-        http.authenticationProvider(daoAuthenticationProvider());
+//        http
+//	        .csrf(csrf -> csrf.disable())
+//	        .cors(cors -> cors.disable())
+//	        .authorizeRequests().
+//            requestMatchers("/api/**").authenticated().requestMatchers("/auth/login").permitAll()
+//            .anyRequest()
+//            .authenticated()
+//            .and().exceptionHandling(ex -> ex.authenticationEntryPoint(this.jwtAuthenticationEntryPoint))
+//            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+        http
+        	.csrf(csrf -> csrf.disable())
+	        .cors(cors -> cors.disable())
+	        
+	        .authorizeHttpRequests(auth -> auth.requestMatchers("/api/**").authenticated()
+	        									.requestMatchers("/auth/login").permitAll()
+	        									.anyRequest().authenticated())	
+	        		
+	        .exceptionHandling(ex -> ex.authenticationEntryPoint(this.jwtAuthenticationEntryPoint))
+	        .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+
+	        
+	        http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+	        
+	        http.authenticationProvider(daoAuthenticationProvider());
     	
         return http.build();
     }
