@@ -1,6 +1,12 @@
 package com.codewithdurgesh.blog.payloads;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.hibernate.validator.constraints.Email;
+
+import com.codewithdurgesh.blog.entities.Role;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
@@ -31,4 +37,6 @@ public class UserDto {
 	
 	@NotEmpty
 	private String about;
+	
+	Set<RoleDto> roles = new HashSet<>(); 
 }

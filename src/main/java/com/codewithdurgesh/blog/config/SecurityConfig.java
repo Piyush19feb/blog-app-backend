@@ -41,7 +41,7 @@ public class SecurityConfig {
         	.cors(cors -> cors.disable())
 	        
 	        .authorizeHttpRequests(auth -> auth.requestMatchers("/api/**").authenticated()
-	        									.requestMatchers("/auth/login").permitAll()
+	        									.requestMatchers("/auth/**").permitAll()
 	        									.anyRequest().authenticated())	
 	        		
 	        .exceptionHandling(ex -> ex.authenticationEntryPoint(this.jwtAuthenticationEntryPoint))
