@@ -32,7 +32,7 @@ public class UserDto {
 	private String email;
 	
 	@NotEmpty()
-	@Size(min=3, max=10, message="Password must contain min 3 and max 10 characters")
+	@Size(min=3, max=20, message="Password must contain min 3 and max 20 characters")
 	private String password;
 	
 	@NotEmpty
